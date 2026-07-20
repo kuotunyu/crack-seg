@@ -155,7 +155,10 @@ def compute_binary_metrics(y_true, y_pred) -> dict:
     recall = safe_divide(tp, tp + fn)
     dice = safe_divide(2 * tp, 2 * tp + fp + fn)
     iou = safe_divide(tp, tp + fp + fn)
-    f1 = safe_divide(2 * precision * recall, precision + recall)
+    # Compute F1 from the confusion counts so that a prediction with no true
+    # positives cannot be treated as a perfect score when precision and recall
+    # are both zero.
+    f1 = safe_divide(2 * tp, 2 * tp + fp + fn)
     accuracy = safe_divide(tp + tn, total)
 
     return {

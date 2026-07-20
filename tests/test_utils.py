@@ -51,6 +51,15 @@ def test_empty_prediction():
     assert metrics['recall'] == pytest.approx(0.0)
 
 
+def test_f1_is_zero_when_prediction_and_target_do_not_overlap():
+    y_true = np.array([True, False])
+    y_pred = np.array([False, True])
+
+    metrics = compute_binary_metrics(y_true, y_pred)
+
+    assert metrics['f1'] == pytest.approx(0.0)
+
+
 def test_metrics_keys_present():
     """確認回傳字典包含所有必要指標鍵。"""
     y = np.zeros((4, 4), dtype=bool)
