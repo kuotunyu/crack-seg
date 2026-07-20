@@ -29,7 +29,11 @@
 
 從影像與 Mask 配對開始，經過資料切分、資料增強與模型訓練，最後由同一份最佳權重支援評估、單張／批次推論、影片推論與 Gradio Demo。
 
-![Crack Segmentation 端到端工作流程](docs/diagrams/readme_01_flowchart_project_workflow.png)
+<p align="center">
+  <a href="docs/diagrams/readme_01_flowchart_project_workflow.png">
+    <img src="docs/diagrams/readme_01_flowchart_project_workflow.png" alt="Crack Segmentation 端到端工作流程" width="760">
+  </a>
+</p>
 
 [檢視 Mermaid 原始檔](docs/diagrams/readme_01_flowchart_project_workflow.mmd)
 
@@ -37,7 +41,11 @@
 
 `config.py` 的 `MODEL_TYPE` 透過 `model.py:get_model()` 統一建立三種模型，並維持相同的單通道 Sigmoid Probability Mask 輸出介面。
 
-![Crack Segmentation 模型選擇架構](docs/diagrams/readme_02_flowchart_model_architecture.png)
+<p align="center">
+  <a href="docs/diagrams/readme_02_flowchart_model_architecture.png">
+    <img src="docs/diagrams/readme_02_flowchart_model_architecture.png" alt="Crack Segmentation 模型選擇架構" width="760">
+  </a>
+</p>
 
 [檢視 Mermaid 原始檔](docs/diagrams/readme_02_flowchart_model_architecture.mmd)
 
