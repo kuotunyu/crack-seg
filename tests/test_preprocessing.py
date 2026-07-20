@@ -62,6 +62,17 @@ def test_data_generator_batch_shape():
         assert y.shape == (2, 64, 64, 1)
 
 
+@pytest.mark.parametrize(
+    ("batch_size", "img_size"),
+    [(0, 64), (-1, 64), (2, 0), (2, -64)],
+)
+def test_data_generator_rejects_non_positive_dimensions(batch_size, img_size):
+    from data_preprocessing import DataGenerator
+
+    with pytest.raises(ValueError, match="positive integer"):
+        DataGenerator([], [], batch_size=batch_size, img_size=img_size)
+
+
 def test_data_generator_reads_images_as_rgb():
     """OpenCV 讀入 BGR 後，DataGenerator 應轉成 RGB 給模型。"""
     from data_preprocessing import DataGenerator

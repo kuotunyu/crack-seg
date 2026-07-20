@@ -28,6 +28,10 @@ class DataGenerator(utils.Sequence):
             raise ValueError(
                 "影像與 Mask 數量不一致: {} vs {}".format(len(img_paths), len(mask_paths))
             )
+        if batch_size <= 0:
+            raise ValueError("batch_size must be a positive integer")
+        if img_size <= 0:
+            raise ValueError("img_size must be a positive integer")
         self.img_paths = img_paths
         self.mask_paths = mask_paths
         self.batch_size = batch_size
