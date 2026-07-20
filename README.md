@@ -279,17 +279,21 @@ docker compose run crack-seg python train.py --data_path dataset/
 
 ## 系統架構
 
-```mermaid
-flowchart LR
-    DS["dataset/<br>image + mask"] --> DG["data_preprocessing.py<br>DataGenerator + imgaug 增強"]
-    DG --> TR["train.py<br>Dice Loss + EarlyStopping"]
-    TR --> CK[("checkpoints/<br>best_model.h5")]
-    TR --> RUNS["runs/<br>訓練曲線 + config + metrics"]
-    CK --> PR["predict.py<br>單張 / 批次推論"]
-    CK --> VP["video_predict.py<br>影片逐幀偵測"]
-    CK --> EV["evaluate.py<br>量化評估（--split val）"]
-    CK --> APP["app.py<br>Gradio Demo"]
-```
+### 端到端工作流程
+
+從影像與 Mask 配對開始，經過資料切分、資料增強與模型訓練，最後由同一份最佳權重支援評估、單張／批次推論、影片推論與 Gradio Demo。
+
+![Crack Segmentation 端到端工作流程](docs/diagrams/readme_01_flowchart_project_workflow.png)
+
+[查看 Mermaid 圖源](docs/diagrams/readme_01_flowchart_project_workflow.mmd)
+
+### 模型選擇架構
+
+`config.py` 的 `MODEL_TYPE` 透過 `model.py:get_model()` 統一建立三種模型，並維持相同的單通道 Sigmoid Probability Mask 輸出介面。
+
+![Crack Segmentation 模型選擇架構](docs/diagrams/readme_02_flowchart_model_architecture.png)
+
+[查看 Mermaid 圖源](docs/diagrams/readme_02_flowchart_model_architecture.mmd)
 
 ---
 

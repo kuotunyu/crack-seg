@@ -1,0 +1,31 @@
+flowchart LR
+    subgraph Data["📦 資料準備"]
+        Dataset["dataset/<br/>image/ + mask/"] --> Pair["🔗 find_dataset_pairs<br/>依檔名 stem 配對"]
+        Pair --> Split["✂️ 80/20<br/>train / validation"]
+    end
+
+    subgraph Training["⚙️ 模型訓練"]
+        Split --> TrainGen["DataGenerator<br/>imgaug 資料增強"]
+        Split --> ValGen["DataGenerator<br/>validation 不增強"]
+        TrainGen --> Fit["🚀 train.py<br/>Adam + Dice Loss"]
+        ValGen --> Fit
+        Fit --> Checkpoint[("💾 checkpoints/<br/>best_model.h5")]
+        Fit --> Runs["📊 runs/<br/>曲線 + config + metrics"]
+    end
+
+    subgraph Application["🎯 評估與應用"]
+        Checkpoint --> Evaluate["📏 evaluate.py<br/>6 項量化指標"]
+        Checkpoint --> Predict["🖼️ predict.py<br/>單張 / 批次推論"]
+        Checkpoint --> Video["🎞️ video_predict.py<br/>影片逐幀推論"]
+        Checkpoint --> Demo["🌐 app.py<br/>Gradio Demo"]
+    end
+
+    classDef data fill:#FFF3BF,stroke:#E67700,stroke-width:2px,color:#5F3C00
+    classDef process fill:#D3F9D8,stroke:#2B8A3E,stroke-width:2px,color:#1B4332
+    classDef artifact fill:#D0EBFF,stroke:#1971C2,stroke-width:2px,color:#0B3D66
+    classDef output fill:#E5DBFF,stroke:#6741D9,stroke-width:2px,color:#3B217A
+
+    class Dataset,Pair,Split data
+    class TrainGen,ValGen,Fit process
+    class Checkpoint,Runs artifact
+    class Evaluate,Predict,Video,Demo output

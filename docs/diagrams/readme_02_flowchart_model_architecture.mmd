@@ -1,0 +1,26 @@
+flowchart TB
+    Config["⚙️ config.py<br/>MODEL_TYPE"] --> Factory{"🏗️ model.py<br/>get_model()"}
+
+    subgraph Models["可切換的 Segmentation Model"]
+        Factory -->|unet| UNet["U-Net<br/>Encoder + Skip Connection + Decoder"]
+        Factory -->|deeplabv3plus| DeepLab["DeepLabV3+<br/>MobileNetV2 + ASPP + Decoder"]
+        Factory -->|segformer| SegFormer["SegFormer-B0<br/>MiT Encoder + MLP Decoder"]
+    end
+
+    UNet --> Output["📤 Sigmoid Probability Mask<br/>256 × 256 × 1"]
+    DeepLab --> Output
+    SegFormer --> Output
+    Output --> Train["⚙️ 訓練<br/>Dice Loss"]
+    Output --> Inference["🎯 推論<br/>Threshold → Binary Mask"]
+
+    classDef config fill:#FFF3BF,stroke:#E67700,stroke-width:2px,color:#5F3C00
+    classDef decision fill:#FFE8CC,stroke:#D9480F,stroke-width:2px,color:#7F2704
+    classDef model fill:#D3F9D8,stroke:#2B8A3E,stroke-width:2px,color:#1B4332
+    classDef output fill:#D0EBFF,stroke:#1971C2,stroke-width:2px,color:#0B3D66
+    classDef usage fill:#E5DBFF,stroke:#6741D9,stroke-width:2px,color:#3B217A
+
+    class Config config
+    class Factory decision
+    class UNet,DeepLab,SegFormer model
+    class Output output
+    class Train,Inference usage
