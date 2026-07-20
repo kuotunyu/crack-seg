@@ -33,3 +33,22 @@ def test_dice_loss_complement():
     y_true = tf.constant(np.random.rand(1, 16).astype(np.float32))
     y_pred = tf.constant(np.random.rand(1, 16).astype(np.float32))
     assert float(dice_loss(y_true, y_pred)) == pytest.approx(1.0 - float(dice_coef(y_true, y_pred)), rel=1e-5)
+
+
+def test_save_training_summary_plot(tmp_path):
+    from train import save_training_summary_plot
+
+    history = {
+        "loss": [0.8, 0.5],
+        "val_loss": [0.9, 0.6],
+        "dice_coef": [0.4, 0.7],
+        "val_dice_coef": [0.3, 0.6],
+        "iou_coef": [0.3, 0.55],
+        "val_iou_coef": [0.2, 0.45],
+    }
+    output_path = tmp_path / "history_summary.png"
+
+    save_training_summary_plot(history, output_path)
+
+    assert output_path.is_file()
+    assert output_path.stat().st_size > 0

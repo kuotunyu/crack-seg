@@ -96,6 +96,28 @@ def save_history_plot(
     plt.close()
 
 
+def save_training_summary_plot(history: dict, output_path: str) -> None:
+    """Save Loss, Dice, and IoU training curves in one comparison figure."""
+    metrics = [
+        ("loss", "val_loss", "Loss"),
+        ("dice_coef", "val_dice_coef", "Dice Coefficient"),
+        ("iou_coef", "val_iou_coef", "IoU"),
+    ]
+    figure, axes = plt.subplots(1, len(metrics), figsize=(15, 4))
+
+    for axis, (train_key, val_key, title) in zip(axes, metrics):
+        axis.plot(history[train_key], label="train")
+        if val_key in history:
+            axis.plot(history[val_key], label="validation")
+        axis.set_title(title)
+        axis.set_xlabel("Epoch")
+        axis.legend()
+
+    figure.tight_layout()
+    figure.savefig(output_path)
+    plt.close(figure)
+
+
 def main():
     args = parse_args()
     set_global_seed(args.seed)
@@ -186,6 +208,7 @@ def main():
         "IoU",
         os.path.join(args.figure_dir, "history_iou.png"),
     )
+    save_training_summary_plot(history, os.path.join(args.figure_dir, "history_summary.png"))
     metrics_summary = {
         "final_loss": float(history["loss"][-1]),
         "final_dice_coef": float(history["dice_coef"][-1]),
