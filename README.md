@@ -23,13 +23,15 @@
 
 ## 系統架構
 
+本節將系統拆成端到端工作流程與模型選擇架構，分別說明資料如何流經訓練與應用階段，以及三種模型如何共用相同的輸出介面。
+
 ### 端到端工作流程
 
 從影像與 Mask 配對開始，經過資料切分、資料增強與模型訓練，最後由同一份最佳權重支援評估、單張／批次推論、影片推論與 Gradio Demo。
 
 ![Crack Segmentation 端到端工作流程](docs/diagrams/readme_01_flowchart_project_workflow.png)
 
-[查看 Mermaid 圖源](docs/diagrams/readme_01_flowchart_project_workflow.mmd)
+[檢視 Mermaid 原始檔](docs/diagrams/readme_01_flowchart_project_workflow.mmd)
 
 ### 模型選擇架構
 
@@ -37,7 +39,7 @@
 
 ![Crack Segmentation 模型選擇架構](docs/diagrams/readme_02_flowchart_model_architecture.png)
 
-[查看 Mermaid 圖源](docs/diagrams/readme_02_flowchart_model_architecture.mmd)
+[檢視 Mermaid 原始檔](docs/diagrams/readme_02_flowchart_model_architecture.mmd)
 
 ---
 
