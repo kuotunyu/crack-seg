@@ -1,0 +1,28 @@
+# ================================================================
+# requirements.txt
+# 注意：部分套件有安裝順序與特殊旗標要求，請使用 setup_env.ps1
+# 或參照下方說明逐步安裝。
+# ================================================================
+
+# CUDA 11.2 + cuDNN 8.1.0 請透過 conda 安裝（見 setup_env.ps1）
+#   conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+
+tensorflow==2.10.0
+
+# opencv 必須加 --no-deps，否則 numpy 會被升級至不相容版本
+# pip install --no-deps opencv-python==4.8.1.78
+opencv-python==4.8.1.78
+
+# 以下版本範圍確保與 Python 3.9 相容
+matplotlib>=3.5,<3.10
+tqdm>=4.64
+imgaug==0.4.0
+scikit-learn>=1.0,<1.6
+
+# gradio 各大版本（3.x/4.x/5.x）API 變動大，鎖定 4.x 最終版
+# （5.x 需 Python 3.10+，與本專案環境不相容）
+gradio==4.44.1
+
+# numpy 必須最後安裝並加 --force-reinstall 鎖定版本
+# pip install numpy==1.24.0 --force-reinstall
+numpy==1.24.0

@@ -1,0 +1,9 @@
+# CPU-only dependencies used by GitHub Actions and local smoke tests.
+tensorflow-cpu==2.10.0
+opencv-python-headless==4.8.1.78
+matplotlib>=3.5,<3.10
+tqdm>=4.64
+imgaug==0.4.0
+scikit-learn>=1.0,<1.6
+numpy==1.24.0
+pytest

@@ -1,0 +1,35 @@
+# 大檔案：資料集、權重、訓練產物（以 volume 掛載，不進映像）
+dataset/
+checkpoints/
+outputs/
+runs/
+mlruns/
+wandb/
+
+# Git 與開發環境
+.git/
+.github/
+.gitignore
+.gitattributes
+.idea/
+.vscode/
+
+# Python 快取與虛擬環境
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+crack_seg/
+
+# 文件與展示素材（runtime 不需要）
+docs/
+figure/
+tests/
+README.md
+colab_train.ipynb
+setup_env.ps1
+
+# 機密
+kaggle.json

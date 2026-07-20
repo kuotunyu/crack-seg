@@ -1,0 +1,20 @@
+# ================================================================
+# docker-compose.cpu.yml — CPU-only 覆蓋設定
+#
+# 用法（與基礎設定合併執行）：
+#   docker compose -f docker-compose.yml -f docker-compose.cpu.yml up
+#
+# 此設定會：
+#   1. 將基礎映像替換為 CPU-only 版本
+#   2. 移除 GPU deploy 資源需求
+# ================================================================
+services:
+  crack-seg:
+    image: crack-seg:cpu
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE_IMAGE: tensorflow/tensorflow:2.10.0
+    deploy:
+      resources: {}

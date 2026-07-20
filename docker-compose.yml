@@ -1,0 +1,41 @@
+# ================================================================
+# docker-compose.yml — Crack Segmentation
+#
+# GPU 模式（預設）：
+#   docker compose up
+#
+# CPU-only 模式（無 NVIDIA GPU）：
+#   docker compose -f docker-compose.yml -f docker-compose.cpu.yml up
+# ================================================================
+version: "3.9"
+
+services:
+  crack-seg:
+    build: .
+    image: crack-seg:latest
+    container_name: crack_seg_demo
+
+    # 模型與資料掛載（不把大檔案放進映像）
+    volumes:
+      - ./checkpoints:/app/checkpoints    # 訓練好的 .h5 模型
+      - ./dataset:/app/dataset            # 資料集（可選）
+      - ./outputs:/app/outputs            # 推論輸出
+
+    # Gradio Web UI
+    ports:
+      - "7860:7860"
+
+    environment:
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - GRADIO_SERVER_PORT=7860
+
+    # GPU 支援（需要 NVIDIA Container Toolkit）
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    restart: unless-stopped

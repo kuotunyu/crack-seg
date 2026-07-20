@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # 注意：CI 使用 CPU-only TensorFlow，不需要 CUDA
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements-ci.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-ci.txt
+
+      - name: Lint with ruff
+        run: |
+          pip install ruff
+          ruff check .
+
+      - name: Compile Python files
+        run: |
+          python -m py_compile \
+            app.py \
+            config.py \
+            data_preprocessing.py \
+            evaluate.py \
+            model.py \
+            predict.py \
+            segmentation_utils.py \
+            train.py \
+            video_predict.py
+
+      - name: Run tests
+        run: |
+          python -m pytest tests/ -v --tb=short
