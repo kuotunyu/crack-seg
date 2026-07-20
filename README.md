@@ -21,6 +21,26 @@
 
 ---
 
+## 系統架構
+
+### 端到端工作流程
+
+從影像與 Mask 配對開始，經過資料切分、資料增強與模型訓練，最後由同一份最佳權重支援評估、單張／批次推論、影片推論與 Gradio Demo。
+
+![Crack Segmentation 端到端工作流程](docs/diagrams/readme_01_flowchart_project_workflow.png)
+
+[查看 Mermaid 圖源](docs/diagrams/readme_01_flowchart_project_workflow.mmd)
+
+### 模型選擇架構
+
+`config.py` 的 `MODEL_TYPE` 透過 `model.py:get_model()` 統一建立三種模型，並維持相同的單通道 Sigmoid Probability Mask 輸出介面。
+
+![Crack Segmentation 模型選擇架構](docs/diagrams/readme_02_flowchart_model_architecture.png)
+
+[查看 Mermaid 圖源](docs/diagrams/readme_02_flowchart_model_architecture.mmd)
+
+---
+
 ## 成果展示
 
 以下結果為 U-Net 模型在 [Crack Segmentation Dataset](https://www.kaggle.com/datasets/lakshaymiddha/crack-segmentation-dataset) 上的一次訓練輸出，訓練 Dice 收斂至約 **0.70**。
@@ -274,26 +294,6 @@ docker compose run crack-seg python train.py --data_path dataset/
 ```
 
 > 使用 GPU 需安裝 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)。
-
----
-
-## 系統架構
-
-### 端到端工作流程
-
-從影像與 Mask 配對開始，經過資料切分、資料增強與模型訓練，最後由同一份最佳權重支援評估、單張／批次推論、影片推論與 Gradio Demo。
-
-![Crack Segmentation 端到端工作流程](docs/diagrams/readme_01_flowchart_project_workflow.png)
-
-[查看 Mermaid 圖源](docs/diagrams/readme_01_flowchart_project_workflow.mmd)
-
-### 模型選擇架構
-
-`config.py` 的 `MODEL_TYPE` 透過 `model.py:get_model()` 統一建立三種模型，並維持相同的單通道 Sigmoid Probability Mask 輸出介面。
-
-![Crack Segmentation 模型選擇架構](docs/diagrams/readme_02_flowchart_model_architecture.png)
-
-[查看 Mermaid 圖源](docs/diagrams/readme_02_flowchart_model_architecture.mmd)
 
 ---
 

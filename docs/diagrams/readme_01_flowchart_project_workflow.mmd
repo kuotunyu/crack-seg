@@ -1,10 +1,12 @@
-flowchart LR
+flowchart TD
     subgraph Data["📦 資料準備"]
+        direction TB
         Dataset["dataset/<br/>image/ + mask/"] --> Pair["🔗 find_dataset_pairs<br/>依檔名 stem 配對"]
         Pair --> Split["✂️ 80/20<br/>train / validation"]
     end
 
     subgraph Training["⚙️ 模型訓練"]
+        direction TB
         Split --> TrainGen["DataGenerator<br/>imgaug 資料增強"]
         Split --> ValGen["DataGenerator<br/>validation 不增強"]
         TrainGen --> Fit["🚀 train.py<br/>Adam + Dice Loss"]
@@ -14,6 +16,7 @@ flowchart LR
     end
 
     subgraph Application["🎯 評估與應用"]
+        direction TB
         Checkpoint --> Evaluate["📏 evaluate.py<br/>6 項量化指標"]
         Checkpoint --> Predict["🖼️ predict.py<br/>單張 / 批次推論"]
         Checkpoint --> Video["🎞️ video_predict.py<br/>影片逐幀推論"]
