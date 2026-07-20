@@ -172,6 +172,23 @@ python train.py --data_path dataset/ --model_type segformer --seed 42
 
 訓練完成後模型儲存至 `checkpoints/best_model.h5`，訓練曲線圖、實驗設定與摘要指標輸出至 `runs/`。
 
+### 最小可行工作流程
+
+首次使用時，可依下列順序完成一次從訓練到推論的流程：
+
+```bash
+# 1. 訓練模型
+python train.py --data_path dataset/ --seed 42
+
+# 2. 僅在驗證集評估模型
+python evaluate.py --data_path dataset/ --model_path checkpoints/best_model.h5 --split val
+
+# 3. 對單張影像進行推論
+python predict.py --image_path path/to/image.jpg --model_path checkpoints/best_model.h5
+```
+
+完成訓練後，`runs/` 會包含 Loss、Dice、IoU 的個別曲線，以及便於快速比較的 `history_summary.png`；評估結果則會輸出為 CSV 與範例影像網格。
+
 ---
 
 ## 完整 CLI 指令
